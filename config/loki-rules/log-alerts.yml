@@ -1,0 +1,10 @@
+groups:
+  - name: log-alerts
+    rules:
+      - alert: HighErrorLogRate
+        expr: sum by (service) (rate({service=~".+"} |~ "(?i)(error|exception|fatal)" [5m])) > 5
+        for: 5m
+        labels: { severity: warning }
+        annotations:
+          summary: "High rate of error log lines in {{ $labels.service }}"
+          description: "More than 5 error lines/second for 5 minutes."

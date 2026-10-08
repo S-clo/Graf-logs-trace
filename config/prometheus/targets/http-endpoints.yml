@@ -1,0 +1,9 @@
+# URLs to probe over HTTP(S). Replace the examples with your real endpoints.
+# severity label decides alert routing: critical -> on-call, warning -> default.
+- targets: ["https://example.com"]
+  labels:
+    service: example-website
+    env: prod
+    severity: warning
+# - targets: ["https://broker-portal.example.com/health"]
+#   labels: { service: broker-portal, env: prod, severity: critical }

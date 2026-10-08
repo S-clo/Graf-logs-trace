@@ -1,0 +1,38 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  receiver: default
+  group_by: [alertname, instance]
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+  routes:
+    - matchers: ['severity="critical"']
+      receiver: oncall
+      repeat_interval: 1h
+
+# A critical alert silences its own warning-level twin for the same alert/instance.
+inhibit_rules:
+  - source_matchers: ['severity="critical"']
+    target_matchers: ['severity="warning"']
+    equal: [alertname, instance]
+
+# Tip: prefix notification subjects with "[Obs]" so they are distinguishable from Zabbix alerts, e.g.
+#   email_configs: - headers: { Subject: '[Obs] {{ .CommonLabels.alertname }} ({{ .Status }})' }
+# Receivers start empty so the stack boots cleanly. Add real notification channels below.
+receivers:
+  - name: default
+    # email_configs:
+    #   - to: it-alerts@yourcompany.com
+    #     from: alertmanager@yourcompany.com
+    #     smarthost: smtp.office365.com:587
+    #     auth_username: alertmanager@yourcompany.com
+    #     auth_password: "<app-password-or-secret>"
+    #     require_tls: true
+  - name: oncall
+    # email_configs: [ ... same as above, to the on-call mailbox ... ]
+    # msteamsv2_configs:                       # Microsoft Teams (Workflows webhook URL)
+    #   - webhook_url: "https://<your-teams-workflow-webhook>"
+    # webhook_configs:                         # SMS gateway, PagerDuty bridge, etc.
+    #   - url: "http://your-gateway/alert"

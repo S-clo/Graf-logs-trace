@@ -1,0 +1,5 @@
+# host:port of TLS services whose certificate expiry you want tracked (SMTPS 465, LDAPS 636, etc.).
+# Existing TlsCertExpiring* alerts apply automatically.
+[]
+# - targets: ["mail.example.com:465"]
+#   labels: { service: smtp-tls, env: prod, severity: warning }

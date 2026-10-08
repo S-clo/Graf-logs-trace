@@ -1,0 +1,4 @@
+# host:port checks for non-HTTP services (databases, FIX gateways, SMTP, etc.).
+[]
+# - targets: ["10.0.0.30:5432"]
+#   labels: { service: postgres, env: prod, severity: critical }

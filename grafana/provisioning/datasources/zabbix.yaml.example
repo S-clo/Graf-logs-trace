@@ -1,0 +1,16 @@
+# Rename to zabbix.yaml after filling in your Zabbix API URL and a read-only API user.
+apiVersion: 1
+datasources:
+  - name: Zabbix
+    type: alexanderzobnin-zabbix-datasource
+    uid: zabbix
+    access: proxy
+    url: http://YOUR-ZABBIX-SERVER/api_jsonrpc.php
+    jsonData:
+      username: grafana-readonly
+      trends: true
+      trendsFrom: "7d"
+      trendsRange: "4d"
+      cacheTTL: "1h"
+    secureJsonData:
+      password: CHANGE-ME
